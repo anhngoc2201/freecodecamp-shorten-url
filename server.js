@@ -5,8 +5,17 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser')
+var mongoose = require('mongoose');
 // we've started you off with Express, 
 // but feel free to use whatever libs or frameworks you'd like through `package.json`.
+
+mongoose.connect(`mongodb://tieulee2205:anhngoc1@A@ds213183.mlab.com:13183/freecodecamp`)
+       .then(() => {
+         console.log('Database connection successful')
+       })
+       .catch(err => {
+         console.error('Database connection error')
+       })
 
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
