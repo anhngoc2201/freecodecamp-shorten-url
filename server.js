@@ -74,7 +74,7 @@ app.post('/api/shorturl/new/:input_url(*)', function(request,response)
     shortenUrl.save()
    .then(doc => {
      console.log(doc)
-      response.send( {"original_url":request.params.input_url,"short_url":1,"doc": doc});
+      response.send( {"original_url":request.params.input_url,"short_url":doc._id});
    })
    .catch(err => {
       response.send( {"save database error":err});
@@ -88,12 +88,14 @@ app.post('/api/shorturl/new/:input_url(*)', function(request,response)
 });
 
 
-app.post('/api/sshorten_url/:id', function(request, response) {
+app.get('/api/shorten_url/:id', function(request, response) {
   
-  shortenUrlModel.Find({
+  console.log("id: " + request.params.id );
+  shortenUrlModel.findOne({
     _id: request.params.id   // search query
   }) .then(doc => {
-    response.send( {"doc":doc});
+    //response.send( {"error":doc});
+    response.status(301).redirect(doc.originalUrl);
   })
   .catch(err => {
     response.send( {"error":"invalid URL"});
