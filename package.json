@@ -12,7 +12,9 @@
   "dependencies": {
     "express": "^4.16.3",
     "pug":"*",
-    "bodyParser":"*"
+    "bodyParser":"*",
+    "mongoose": "^5.1.6",
+    "mongodb": "^3.4.13"
   },
   "engines": {
     "node": "8.x"
