@@ -10,10 +10,10 @@ var app = express();
 
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
-
+app.set('view engine', 'pug')
 // http://expressjs.com/en/starter/basic-routing.html
 app.get('/', function(request, response) {
-  response.sendFile(__dirname + '/views/index.html');
+  response.render(__dirname + '/views/index',{title:"hey",message:"message"});
 });
 
 app.post('/shorten_url/', function(request, response) {
