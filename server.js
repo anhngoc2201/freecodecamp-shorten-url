@@ -6,17 +6,18 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser')
 var mongoose = require('mongoose');
+
 // we've started you off with Express, 
 // but feel free to use whatever libs or frameworks you'd like through `package.json`.
 
-mongoose.connect(`mongodb://tieulee2205:anhngoc1@A@ds213183.mlab.com:13183/freecodecamp`)
+mongoose.connect(`mongodb://anhngoc92:anhngocyeuhoanghien2010@ds213183.mlab.com:13183/freecodecamp`,{ useNewUrlParser: true })
        .then(() => {
          console.log('Database connection successful')
        })
        .catch(err => {
-         console.error('Database connection error')
+         console.error('Database connection error: ' + err)
        })
-
+var shortenUrlModel = require('./models/shortenUrl');
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
 app.set('view engine', 'pug')
@@ -59,6 +60,20 @@ app.post('/api/shorturl/new/:input_url(*)', function(request,response)
      response.send( {"error":"invalid URL"});
   }
   
+});
+
+
+app.post('/api/sshorten_url/:id', function(request, response) {
+  
+  shortenUrlModel.Find({
+    _id: request.params.id   // search query
+  }) .then(doc => {
+    response.send( {"doc":doc});
+  })
+  .catch(err => {
+    response.send( {"error":"invalid URL"});
+  });
+ 
 });
 
 // listen for requests :)
