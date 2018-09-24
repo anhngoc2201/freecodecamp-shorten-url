@@ -94,14 +94,38 @@ app.get('/api/shorten_url/:id', function(request, response) {
   shortenUrlModel.findOne({
     _id: request.params.id   // search query
   }) .then(doc => {
-    //response.send( {"error":doc});
-    response.status(301).redirect(doc.originalUrl);
+    //response.send( {"error":doc});\
+ 
+    const targetUrl = doc.originalUrl;
+    if (/((ftp|http|https):\/\/)/.test(targetUrl))
+  {
+    
+  }else
+  {
+    targetUrl = `http:\/\/` + targetUrl;
+  }
+    console.log(targetUrl);
+    response.redirect(301, targetUrl);
   })
   .catch(err => {
     response.send( {"error":"invalid URL"});
   });
  
 });
+
+function handleRedirect(req, res) {
+  const targetUrl = req.originalUrl;
+  if (/((ftp|http|https):\/\/)/.test(targetUrl))
+  {
+    
+  }else
+  {
+    targetUrl = `http:\\` + targetUrl;
+  }
+  console.log(targetUrl);
+  res.redirect(targetUrl);
+}
+app.get('*', handleRedirect);
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function() {
