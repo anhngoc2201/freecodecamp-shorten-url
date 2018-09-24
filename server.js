@@ -17,7 +17,7 @@ app.get('/', function(request, response) {
 });
 
 app.post('/shorten_url/', function(request, response) {
-  response.sendFile(__dirname + '/views/index.html');
+  response.send( {"original_url":"www.google.com","short_url":1});
 });
 
 // listen for requests :)
