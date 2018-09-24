@@ -26,23 +26,20 @@
   <body>
     <header>
       <h1>
-        A Dream of the Future
+        A URL Shortener
       </h1>
     </header>
 
     <main>
-      <p class="bold">Oh hi,</p>
       
-      <p>Tell me your hopes and dreams:</p>
       
-      <form>
-        <input name="dream" type="text" maxlength="100" placeholder="Dreams!" aria-labelledby="submit-dream">
-        <button type="submit" id="submit-dream">Submit Dream</button>
+      <form action="/shorten_url/" method="post"> 
+        <label>Enter Url: </label>
+        <input name="input_url" type="text" maxlength="100" placeholder="Url here" aria-labelledby="input_url">
+        <button type="submit">Submit Dream</button>
       </form>
       
-      <section class="dreams">
-        <ul id="dreams"></ul>
-      </section>
+    
     </main>
 
     <footer>
