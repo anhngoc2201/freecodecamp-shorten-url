@@ -32,10 +32,12 @@ app.post('/shorten_url/', function(request, response) {
  
 });
 
-app.post('/api/shorturl/new - :new', function(request,response)
+app.post('/api/shorturl/new-:input_url', function(request,response)
 {
-   if (/(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/.test(request.body.input_url)){
-     response.send( {"original_url":request.body.input_url,"short_url":1});
+  response.header("Access-Control-Allow-Origin", "*");
+  response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+   if (/(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/.test(request.params.input_url)){
+     response.send( {"original_url":request.input_url,"short_url":1});
   }else
   {
      response.send( {"error":"invalid URL"});
