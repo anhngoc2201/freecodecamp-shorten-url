@@ -9,8 +9,8 @@ var mongoose = require('mongoose');
 var autoIncrement = require('mongoose-auto-increment');
 // we've started you off with Express, 
 // but feel free to use whatever libs or frameworks you'd like through `package.json`.
-
-mongoose.connect(`mongodb://anhngoc92:anhngocyeuhoanghien2010@ds213183.mlab.com:13183/freecodecamp`,{ useNewUrlParser: true })
+console.log(process.env.MONGODB);
+mongoose.connect(process.env.MONGODB,{ useNewUrlParser: true })
        .then(() => {
          console.log('Database connection successful')
        })
@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 // http://expressjs.com/en/starter/basic-routing.html
 app.get('/', function(request, response) {
-  response.render(__dirname + '/views/index',{title:"hey",message:"message"});
+  response.render(__dirname + '/views/index',{title:"Shorten URL",message:"Enter url"});
 });
 
 app.post('/shorten_url/', function(request, response) {
