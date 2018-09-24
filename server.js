@@ -96,19 +96,25 @@ app.get('/api/shorten_url/:id', function(request, response) {
   }) .then(doc => {
     //response.send( {"error":doc});\
  
-    const targetUrl = doc.originalUrl;
-    if (/((ftp|http|https):\/\/)/.test(targetUrl))
+    var targetUrl = doc.originalUrl;
+    console.log("before check re: " + targetUrl);
+    var re = new RegExp('((ftp|http|https))');
+    if (re.test(targetUrl))
   {
     
+    console.log("test success");
+    response.redirect(301, targetUrl);
   }else
   {
-    targetUrl = `http:\/\/` + targetUrl;
-  }
-    console.log(targetUrl);
+    console.log("test fail");
+    targetUrl = "http://" + targetUrl;
+    console.log("target has parse: " + targetUrl);
     response.redirect(301, targetUrl);
+  }
+   
   })
   .catch(err => {
-    response.send( {"error":"invalid URL"});
+    response.send( {"error":err});
   });
  
 });
@@ -120,7 +126,7 @@ function handleRedirect(req, res) {
     
   }else
   {
-    targetUrl = `http:\\` + targetUrl;
+    targetUrl = "http://" + targetUrl;
   }
   console.log(targetUrl);
   res.redirect(targetUrl);
