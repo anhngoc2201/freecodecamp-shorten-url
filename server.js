@@ -32,24 +32,24 @@ app.post('/shorten_url/', function(request, response) {
  
 });
 
-app.post('/api/shorturl/new/:new(*)', function(request,response)
+app.post('/api/shorturl/new/:input_url(*)', function(request,response)
 {
   var original_url = request.params.new;
   response.setHeader('Access-Control-Allow-Origin', '*');
   response.setHeader('Access-Control-Allow-Headers', 'Origin, Accept, Accept-  Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, X-Response-Time, X-PINGOTHER, X-CSRF-Token,Authorization');
   response.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-  response.send( {"error":original_url});
-  /***
   
-   if (/(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/.test(request.params.input_url)){
-     console.log("original_url: " + original_url);
-     //response.send( {"original_url":request.params.input_url,"short_url":1});
-     response.send( {"error":"accept"});
+  
+  
+   if (/((ftp|http|https):\/\/)?(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/.test(request.params.input_url)){
+     
+     response.send( {"original_url":request.params.input_url,"short_url":1});
+     //response.send( {"error":"accept"});
   }else
   {
      response.send( {"error":"invalid URL"});
   }
-  **/
+  
 });
 
 // listen for requests :)
