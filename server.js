@@ -36,8 +36,11 @@ app.post('/api/shorturl/new-:input_url', function(request,response)
 {
   response.header("Access-Control-Allow-Origin", "*");
   response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  var original_url = request.params.input_url;
    if (/(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/.test(request.params.input_url)){
-     response.send( {"original_url":request.input_url,"short_url":1});
+     console.log("original_url: " + original_url);
+     //response.send( {"original_url":request.params.input_url,"short_url":1});
+     response.send( {"error":"invalid URL","original":original_url});
   }else
   {
      response.send( {"error":"invalid URL"});
