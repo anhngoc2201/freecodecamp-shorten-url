@@ -14,7 +14,8 @@
     "pug":"*",
     "body-parser":"*",
     "mongoose": "*",
-    "mongodb": "*"
+    "mongodb": "*",
+    "mongoose-auto-increment":"*"
   },
   "engines": {
     "node": "8.x"

@@ -6,7 +6,7 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser')
 var mongoose = require('mongoose');
-
+var autoIncrement = require('mongoose-auto-increment');
 // we've started you off with Express, 
 // but feel free to use whatever libs or frameworks you'd like through `package.json`.
 
@@ -17,6 +17,7 @@ mongoose.connect(`mongodb://anhngoc92:anhngocyeuhoanghien2010@ds213183.mlab.com:
        .catch(err => {
          console.error('Database connection error: ' + err)
        })
+autoIncrement.initialize(mongoose.connection);
 var shortenUrlModel = require('./models/shortenUrl');
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
@@ -34,7 +35,19 @@ app.get('/', function(request, response) {
 app.post('/shorten_url/', function(request, response) {
   
   if (/(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/.test(request.body.input_url)){
-     response.send( {"original_url":request.body.input_url,"short_url":1});
+    var shortenUrl = new shortenUrlModel({
+    originalUrl :request.body.input_url
+
+});
+    shortenUrl.save()
+   .then(doc => {
+     console.log(doc)
+      response.send( {"original_url":request.body.input_url,"short_url":1,"doc": doc});
+   })
+   .catch(err => {
+      response.send( {"save database error":err});
+   })
+     
   }else
   {
      response.send( {"error":"invalid URL"});
@@ -53,7 +66,19 @@ app.post('/api/shorturl/new/:input_url(*)', function(request,response)
   
    if (/((ftp|http|https):\/\/)?(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/.test(request.params.input_url)){
      
-     response.send( {"original_url":request.params.input_url,"short_url":1});
+   
+      var shortenUrl = new shortenUrlModel({
+    originalUrl :request.params.input_url
+
+});
+    shortenUrl.save()
+   .then(doc => {
+     console.log(doc)
+      response.send( {"original_url":request.params.input_url,"short_url":1,"doc": doc});
+   })
+   .catch(err => {
+      response.send( {"save database error":err});
+   })
      //response.send( {"error":"accept"});
   }else
   {
