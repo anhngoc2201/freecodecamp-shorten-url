@@ -9,8 +9,7 @@ var mongoose = require('mongoose');
 var autoIncrement = require('mongoose-auto-increment');
 // we've started you off with Express, 
 // but feel free to use whatever libs or frameworks you'd like through `package.json`.
-console.log(process.env.MONGODB);
-mongoose.connect(process.env.MONGODB,{ useNewUrlParser: true })
+mongoose.connect(`mongodb://`+ process.env.USERNAME + ':' + process.env.PASSWORD +`@` +process.env.MONGO_URL,{ useNewUrlParser: true })
        .then(() => {
          console.log('Database connection successful')
        })
@@ -42,7 +41,7 @@ app.post('/shorten_url/', function(request, response) {
     shortenUrl.save()
    .then(doc => {
      console.log(doc)
-      response.send( {"original_url":request.body.input_url,"short_url":1,"doc": doc});
+      response.send( {"original_url":request.body.input_url,"short_url":doc._id});
    })
    .catch(err => {
       response.send( {"save database error":err});
@@ -58,11 +57,7 @@ app.post('/shorten_url/', function(request, response) {
 app.post('/api/shorturl/new/:input_url(*)', function(request,response)
 {
   var original_url = request.params.new;
-  response.setHeader('Access-Control-Allow-Origin', '*');
-  response.setHeader('Access-Control-Allow-Headers', 'Origin, Accept, Accept-  Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, X-Response-Time, X-PINGOTHER, X-CSRF-Token,Authorization');
-  response.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-  
-  
+
   
    if (/((ftp|http|https):\/\/)?(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/.test(request.params.input_url)){
      
@@ -121,14 +116,7 @@ app.get('/api/shorten_url/:id', function(request, response) {
 
 function handleRedirect(req, res) {
   const targetUrl = req.originalUrl;
-  if (/((ftp|http|https):\/\/)/.test(targetUrl))
-  {
-    
-  }else
-  {
-    targetUrl = "http://" + targetUrl;
-  }
-  console.log(targetUrl);
+  
   res.redirect(targetUrl);
 }
 app.get('*', handleRedirect);
